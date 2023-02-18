@@ -1,6 +1,5 @@
 package cn.zzwtsy.sunrun.tools;
 
-import cn.zzwtsy.sunrun.data.Config;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -13,9 +12,15 @@ import java.util.List;
  * @author zzwtsy
  * @since 2023/02/17
  */
-public class Random {
+public class Tools {
     private static List<String> alphabet = Arrays.asList("abcdefghijklmnopqrstuvwxyz".split(""));
 
+    /**
+     * 加密
+     *
+     * @param value 价值
+     * @return {@link String}
+     */
     @NotNull
     public static String encrypt(@NotNull String value) {
         List<String> table = Arrays.asList(randomAlphabet().split(""));

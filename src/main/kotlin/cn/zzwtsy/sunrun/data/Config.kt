@@ -11,19 +11,27 @@ import net.mamoe.mirai.console.data.value
  */
 object Config : AutoSavePluginConfig("config") {
     @ValueDescription("机器人 qq 号")
-    var botId by value(0L)
+    var botId: Long by value(0L)
 
     @ValueDescription("qq 群号")
-    var groupId by value(0L)
+    var groupId: Long by value(0L)
 
     @ValueDescription(
         """
         定时任务时间
+        示例:
+            task:
+              1111: 222
+              3333: 444
+        或
+            task: { 1111: 222,3333: 444 }
         """
     )
     var task: Map<Long, String> by value()
+
+    @ValueDescription("如何获取 IMEI:https://github.com/Waldenth/FuckHamSports#for-users")
     var imei: Map<Long, String> by value()
 
     @ValueDescription("阳光体育版本号")
-    val version by value("2.44")
+    val version: String by value("2.44")
 }
