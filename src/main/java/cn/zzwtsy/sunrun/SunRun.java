@@ -6,6 +6,10 @@ import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescriptionBuilder;
 
 import java.util.Map;
 
+/**
+ * @author zzwtsy
+ * @since 2023/02/22
+ */
 public final class SunRun extends JavaPlugin {
     public static final SunRun INSTANCE = new SunRun();
 
@@ -18,11 +22,11 @@ public final class SunRun extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Config.INSTANCE.setTask(Map.of(1111L, "222", 3333L, "444"));
+        Config.setTask(Map.of(1111L, "222", 3333L, "444"));
         reloadPluginConfig(Config.INSTANCE);
-        Config.INSTANCE.getTask().forEach((k, v) -> System.out.println(k + ":" + v));
+        Config.getTask().forEach((k, v) -> System.out.println(k + ":" + v));
         System.out.println("=============");
-        Config.INSTANCE.getImei().forEach((k, v) -> System.out.println(k + ":" + v));
+        Config.getImei().forEach((k, v) -> System.out.println(k + ":" + v));
         getLogger().info("Plugin loaded!");
     }
 }

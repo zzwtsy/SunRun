@@ -1,6 +1,22 @@
 package cn.zzwtsy.sunrun.bean;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * 用户 bean
+ *
+ * @author zzwtsy
+ * @since 2023/02/22
+ */
+@Getter
+@Setter
+@Builder
 public class UserBean {
+    /**
+     * 用户 Token
+     */
     private String token;
     private String imei;
     private String userId;
@@ -8,67 +24,4 @@ public class UserBean {
     private String nonce;
     private String sign;
     private String timespan;
-
-    public String getToken() {
-        return token;
-    }
-
-    public UserBean setToken(String token) {
-        this.token = token;
-        return this;
-    }
-
-    public String getImei() {
-        return imei;
-    }
-
-    public UserBean setImei(String imei) {
-        this.imei = imei;
-        return this;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public UserBean setUserId(String userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public String getAuth() {
-        return auth;
-    }
-
-    public UserBean setAuth(String auth) {
-        this.auth = auth;
-        return this;
-    }
-
-    public String getNonce() {
-        return nonce;
-    }
-
-    public UserBean setNonce(String nonce) {
-        this.nonce = nonce;
-        return this;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public UserBean setSign(String sign) {
-        this.sign = sign;
-        return this;
-    }
-
-    public String getTimespan() {
-        return timespan;
-    }
-
-    public UserBean setTimespan(String timespan) {
-        this.timespan = timespan;
-        return this;
-    }
 }
