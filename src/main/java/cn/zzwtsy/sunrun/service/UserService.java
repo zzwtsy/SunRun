@@ -2,6 +2,7 @@ package cn.zzwtsy.sunrun.service;
 
 import cn.zzwtsy.sunrun.SunRun;
 import cn.zzwtsy.sunrun.api.Api;
+import cn.zzwtsy.sunrun.bean.EndRunning;
 import cn.zzwtsy.sunrun.bean.UserBean;
 import cn.zzwtsy.sunrun.data.Config;
 import cn.zzwtsy.sunrun.utils.Encryption;
@@ -18,25 +19,31 @@ import java.util.Random;
  * @since 2023/02/17
  */
 public class UserService {
-    public Random random = new Random();
+    private final Random random = new Random();
+    private final Api api = new Api();
 
     /**
      * 获取用户信息
      *
      * @param qqId qq id
-     * @return {@link UserBean}
+     * @return {@link UserBean} | null
      */
-    public UserBean getUserInfo(long qqId) {
+    private UserBean getUserInfo(long qqId) {
         JsonNode jsonNode;
         String imei = Config.getImei().get(qqId);
         try {
-            jsonNode = JsonUtil.fromJson(new Api().getUserInfo(imei));
+            jsonNode = JsonUtil.fromJson(api.getUserInfo(imei));
         } catch (JsonProcessingException e) {
             SunRun.INSTANCE.getLogger().error("获取用户信息失败", e);
             return null;
         }
         JsonNode data = jsonNode.get("Data");
-        String token = data.get("Token").asText();
+        String token;
+        try {
+            token = data.get("Token").asText();
+        } catch (Throwable e) {
+            return null;
+        }
         String timespan = String.valueOf(System.currentTimeMillis());
         String userId = data.get("UserId").asText();
         String auth = "B" + Encryption.encryptionToMd5(Encryption.encryptionToMd5(imei)) + ":;" + token;
@@ -51,5 +58,35 @@ public class UserService {
                 .imei(imei)
                 .token(token)
                 .build();
+    }
+
+    public String run(long qq) {
+        UserBean userInfo = getUserInfo(qq);
+        if (userInfo == null) {
+            return "false";
+        }
+        String runningRes = api.getRunningRes(userInfo);
+        JsonNode jsonNode;
+        try {
+            jsonNode = JsonUtil.fromJson(runningRes);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        EndRunning endRunning = new EndRunning();
+        endRunning.setRunId(jsonNode.get("Data").get("RunId").asText());
+        endRunning.setLengths(jsonNode.get("Data").get("SchoolRun").get("Lengths").asInt());
+        String endRunningRes = api.getEndRunning(endRunning, userInfo);
+        JsonNode endNode;
+        try {
+            endNode = JsonUtil.fromJson(endRunningRes);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            endNode.get("Success");
+            return "";
+        } catch (Exception e) {
+            return "";
+        }
     }
 }

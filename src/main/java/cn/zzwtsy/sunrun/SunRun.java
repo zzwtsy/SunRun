@@ -22,9 +22,8 @@ public final class SunRun extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Config.setTask(Map.of(1111L, "222", 3333L, "444"));
+        Config.setImei(Map.of(1111L, "222", 3333L, "444"));
         reloadPluginConfig(Config.INSTANCE);
-        Config.getTask().forEach((k, v) -> System.out.println(k + ":" + v));
         System.out.println("=============");
         Config.getImei().forEach((k, v) -> System.out.println(k + ":" + v));
         getLogger().info("Plugin loaded!");

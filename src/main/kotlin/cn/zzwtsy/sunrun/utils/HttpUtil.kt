@@ -26,6 +26,20 @@ object HttpUtil {
     }
 
     /**
+     * 发送 Get 请求
+     * @param [url] url
+     * @return [String?]
+     */
+    @JvmStatic
+    fun sendGet(url: String): String? {
+        val request = Request.Builder()
+            .get()
+            .url(url)
+            .build()
+        return client.newCall(request).execute().body?.string()
+    }
+
+    /**
      * 发送 Post 请求
      * @param [url] url
      * @param [headers] 请求头

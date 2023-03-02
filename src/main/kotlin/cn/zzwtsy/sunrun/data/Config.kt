@@ -21,8 +21,17 @@ object Config : AutoSavePluginConfig("config") {
     @ValueDescription(
         """
         定时任务时间
-        示例:
-            task:
+        """
+    )
+    @JvmStatic
+    var task: String by value()
+
+    @ValueDescription(
+        """
+        如何获取 IMEI:https://github.com/Waldenth/FuckHamSports#for-users
+        |示例:
+            imei:
+              qq 号: imei
               1111: 222
               3333: 444
         或
@@ -30,11 +39,15 @@ object Config : AutoSavePluginConfig("config") {
         """
     )
     @JvmStatic
-    var task: Map<Long, String> by value()
-
-    @ValueDescription("如何获取 IMEI:https://github.com/Waldenth/FuckHamSports#for-users")
-    @JvmStatic
     var imei: Map<Long, String> by value()
+
+    @ValueDescription("经度")
+    @JvmStatic
+    var longitude: String by value()
+
+    @ValueDescription("纬度")
+    @JvmStatic
+    var latitude: String by value()
 
     @ValueDescription("阳光体育版本号")
     @JvmStatic
