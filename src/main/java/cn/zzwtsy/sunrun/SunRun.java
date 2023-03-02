@@ -1,10 +1,9 @@
 package cn.zzwtsy.sunrun;
 
 import cn.zzwtsy.sunrun.data.Config;
+import cn.zzwtsy.sunrun.service.TaskService;
 import net.mamoe.mirai.console.plugin.jvm.JavaPlugin;
 import net.mamoe.mirai.console.plugin.jvm.JvmPluginDescriptionBuilder;
-
-import java.util.Map;
 
 /**
  * @author zzwtsy
@@ -22,10 +21,11 @@ public final class SunRun extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Config.setImei(Map.of(1111L, "222", 3333L, "444"));
         reloadPluginConfig(Config.INSTANCE);
-        System.out.println("=============");
-        Config.getImei().forEach((k, v) -> System.out.println(k + ":" + v));
+        String timedTask = Config.getTask();
+        //启动定时任务
+        String taskStatus = new TaskService().startTimedTask(timedTask);
+        getLogger().info(taskStatus);
         getLogger().info("Plugin loaded!");
     }
 }

@@ -63,30 +63,29 @@ public class UserService {
     public String run(long qq) {
         UserBean userInfo = getUserInfo(qq);
         if (userInfo == null) {
-            return "false";
+            return "imei 已过期";
         }
         String runningRes = api.getRunningRes(userInfo);
         JsonNode jsonNode;
         try {
             jsonNode = JsonUtil.fromJson(runningRes);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            return "读取跑步信息 json 错误";
         }
         EndRunning endRunning = new EndRunning();
         endRunning.setRunId(jsonNode.get("Data").get("RunId").asText());
-        endRunning.setLengths(jsonNode.get("Data").get("SchoolRun").get("Lengths").asInt());
         String endRunningRes = api.getEndRunning(endRunning, userInfo);
         JsonNode endNode;
         try {
             endNode = JsonUtil.fromJson(endRunningRes);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            return "读取结束 json 错误";
         }
         try {
             endNode.get("Success");
-            return "";
+            return "跑步成功 Success";
         } catch (Exception e) {
-            return "";
+            return endNode.get("Data").asText();
         }
     }
 }

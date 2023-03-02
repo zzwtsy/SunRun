@@ -66,16 +66,19 @@ public class Api {
      */
     public String getEndRunning(EndRunning endRunning, UserBean userBean) {
         Random random = new Random();
-        String runTime = String.valueOf(random.nextInt(1000 - 720 + 1) + 720);
-        String runStep = String.valueOf(random.nextInt(1600 - 1300 + 1) + 1300);
-        String runDist = String.valueOf(random.nextInt(4) + endRunning.getLengths());
-        String url = HOST + userBean.getToken()
-                + "QM_Runs/ES?S1"
+        int tempStep = random.nextInt(10) + Config.getDistance();
+        double tempSpeed = random.nextDouble(1) + Config.getMinSpeed();
+        int tempTime = (int) (tempStep / tempSpeed);
+        String runTime = String.valueOf(tempTime);
+        String runStep = String.valueOf(tempStep);
+        String runDist = String.valueOf(random.nextInt(4) + 1200);
+        String url = HOST + "/" + userBean.getToken()
+                + "/QM_Runs/ES?S1="
                 + endRunning.getRunId()
-                + "&S4=" + runTime
-                + "&S5=" + runDist
+                + "&S4=" + Tools.encrypt(runTime)
+                + "&S5=" + Tools.encrypt(runDist)
                 + "&S6=&S7=1&S8=" + Tools.randomAlphabet()
-                + "&S9" + runStep;
+                + "&S9=" + Tools.encrypt(runStep);
         return HttpUtil.sendGet(url);
     }
 }

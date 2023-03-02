@@ -12,11 +12,11 @@ import net.mamoe.mirai.console.data.value
 object Config : AutoSavePluginConfig("config") {
     @ValueDescription("机器人 qq 号")
     @JvmStatic
-    var botId: Long by value(0L)
+    val botId: Long by value(0L)
 
     @ValueDescription("qq 群号")
     @JvmStatic
-    var groupId: Long by value(0L)
+    val groupId: Long by value(0L)
 
     @ValueDescription(
         """
@@ -24,7 +24,7 @@ object Config : AutoSavePluginConfig("config") {
         """
     )
     @JvmStatic
-    var task: String by value()
+    val task: String by value()
 
     @ValueDescription(
         """
@@ -43,11 +43,19 @@ object Config : AutoSavePluginConfig("config") {
 
     @ValueDescription("经度")
     @JvmStatic
-    var longitude: String by value()
+    val longitude: String by value()
 
     @ValueDescription("纬度")
     @JvmStatic
-    var latitude: String by value()
+    val latitude: String by value()
+
+    @ValueDescription("要求路程")
+    @JvmStatic
+    val distance: Int by value()
+
+    @ValueDescription("最小速度")
+    @JvmStatic
+    val minSpeed: Int by value()
 
     @ValueDescription("阳光体育版本号")
     @JvmStatic

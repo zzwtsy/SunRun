@@ -2,9 +2,9 @@ package cn.zzwtsy.sunrun.tools;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 随机
@@ -43,5 +43,45 @@ public class Tools {
             table.append(alphabet.get(i));
         }
         return table.toString();
+    }
+
+    /**
+     * 补全日期
+     *
+     * @param date 日期 (yyyy-MM-dd HH:mm:ss)
+     * @return {@link String}
+     */
+    public static String complementaryDate(String date) {
+        Calendar calendar = Calendar.getInstance();
+        return calendar.get(Calendar.YEAR) + "-" + (calendar.get(Calendar.MONTH) + 1) + "-" + calendar.get(Calendar.DAY_OF_MONTH) + " " + date + ":00";
+    }
+
+
+    /**
+     * 计算时间
+     *
+     * @param time 时间
+     * @return long
+     * @throws ParseException 解析异常
+     */
+    public static long calculateTime(String time) throws ParseException {
+        String s = complementaryDate(time);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+        long timedTaskTime = sdf.parse(s).getTime();
+        //获取当前时间的时间戳
+        long nowTime = System.currentTimeMillis();
+        //设定时间减去当前时间并转换为秒
+        long delayTime = (timedTaskTime - nowTime) / 1000L;
+        //设定时间位于当前时间之后，直接返回延迟时间即可
+        if (delayTime > 0) {
+            return delayTime;
+        } else if (delayTime < 0) {
+            //设定时间位于当前时间之前，需要延迟到第二天执行
+            //24小时 = 86400秒
+            return 86400 + delayTime;
+        } else {
+            return 0;
+        }
     }
 }
