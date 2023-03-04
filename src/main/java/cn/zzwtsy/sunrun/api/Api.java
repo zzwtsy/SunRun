@@ -41,7 +41,10 @@ public class Api {
      * @return 跑步信息
      */
     public String getRunningRes(UserBean userBean) {
-        String url = HOST + "/" + userBean.getToken() + "/QM_Runs/SRS?S1=" + Config.getLatitude() + "&S2=" + Config.getLongitude() + "&S3=2000";
+        String url = HOST + "/" + userBean.getToken()
+                + "/QM_Runs/SRS?S1=" + Config.getLatitude()
+                + "&S2=" + Config.getLongitude()
+                + "&S3=" + Config.getDistance();
         return HttpUtil.sendGet(
                 url,
                 new Headers.Builder()
@@ -49,9 +52,9 @@ public class Api {
                         .add("timespan", userBean.getTimespan())
                         .add("sign", userBean.getSign())
                         .add("version", Config.getVersion())
-                        .add("Accept", "")
+                        .add("Accept", "text/html")
                         .add("User-Agent", "")
-                        .add("Accept-Encoding", "")
+                        .add("Accept-Encoding", "gzip")
                         .add("Connection", "Keep-Alive")
                         .build()
         );
@@ -66,15 +69,11 @@ public class Api {
      */
     public String getEndRunning(EndRunning endRunning, UserBean userBean) {
         Random random = new Random();
-        int tempStep = random.nextInt(10) + Config.getDistance();
-        double tempSpeed = random.nextDouble(1) + Config.getMinSpeed();
-        int tempTime = (int) (tempStep / tempSpeed);
-        String runTime = String.valueOf(tempTime);
-        String runStep = String.valueOf(tempStep);
-        String runDist = String.valueOf(random.nextInt(4) + 1200);
+        String runTime = String.valueOf(random.nextInt(390) + 640);
+        String runStep = String.valueOf(random.nextInt(512) + 1024);
+        String runDist = String.valueOf(random.nextInt(6) + Config.getDistance());
         String url = HOST + "/" + userBean.getToken()
-                + "/QM_Runs/ES?S1="
-                + endRunning.getRunId()
+                + "/QM_Runs/ES?S1=" + endRunning.getRunId()
                 + "&S4=" + Tools.encrypt(runTime)
                 + "&S5=" + Tools.encrypt(runDist)
                 + "&S6=&S7=1&S8=" + Tools.randomAlphabet()

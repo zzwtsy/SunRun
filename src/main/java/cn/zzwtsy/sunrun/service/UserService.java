@@ -37,15 +37,14 @@ public class UserService {
             SunRun.INSTANCE.getLogger().error("获取用户信息失败", e);
             return null;
         }
-        JsonNode data = jsonNode.get("Data");
         String token;
         try {
-            token = data.get("Token").asText();
+            token = jsonNode.get("Data").get("Token").asText();
         } catch (Throwable e) {
             return null;
         }
         String timespan = String.valueOf(System.currentTimeMillis());
-        String userId = data.get("UserId").asText();
+        String userId = jsonNode.get("Data").get("UserId").asText();
         String auth = "B" + Encryption.encryptionToMd5(Encryption.encryptionToMd5(imei)) + ":;" + token;
         String nonce = String.valueOf(random.nextInt(10000000 - 100000 + 1) + 100000);
         String sign = Encryption.encryptionToMd5(token + nonce + timespan + userId);
