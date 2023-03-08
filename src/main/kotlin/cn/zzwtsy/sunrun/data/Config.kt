@@ -35,7 +35,7 @@ object Config : AutoSavePluginConfig("config") {
               1111: 222
               3333: 444
         或
-            task: { 1111: 222,3333: 444 }
+            imei: { 1111: 222,3333: 444 }
         """
     )
     @JvmStatic

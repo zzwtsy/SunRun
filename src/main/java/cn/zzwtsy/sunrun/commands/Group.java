@@ -6,6 +6,7 @@ import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
+import net.mamoe.mirai.message.data.At;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -36,7 +37,7 @@ public class Group extends SimpleListenerHost {
             }
             Map<Long, String> imei = Config.getImei();
             imei.put(userQqId, strings[1]);
-            groupMessageEvent.getGroup().sendMessage("添加成功");
+            groupMessageEvent.getGroup().sendMessage(new At(userQqId).plus("添加成功"));
         }
     }
 
