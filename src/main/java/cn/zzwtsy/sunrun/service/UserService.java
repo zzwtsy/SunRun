@@ -37,14 +37,13 @@ public class UserService {
             SunRun.INSTANCE.getLogger().error("获取用户信息失败", e);
             return null;
         }
-        String token;
-        try {
-            token = jsonNode.get("Data").get("Token").asText();
-        } catch (Throwable e) {
+        JsonNode data = jsonNode.get("Data");
+        if (data.isNull()) {
             return null;
         }
+        String token = data.get("Token").asText();
         String timespan = String.valueOf(System.currentTimeMillis());
-        String userId = jsonNode.get("Data").get("UserId").asText();
+        String userId = data.get("UserId").asText();
         String auth = "B" + Encryption.encryptionToMd5(Encryption.encryptionToMd5(imei)) + ":;" + token;
         String nonce = String.valueOf(random.nextInt(10000000 - 100000 + 1) + 100000);
         String sign = Encryption.encryptionToMd5(token + nonce + timespan + userId);
@@ -73,7 +72,16 @@ public class UserService {
         }
         EndRunning endRunning = new EndRunning();
         endRunning.setRunId(jsonNode.get("Data").get("RunId").asText());
-        String endRunningRes = api.getEndRunning(endRunning, userInfo);
+        String endRunningRes;
+        try {
+            var runSpeed = random.nextFloat(1) + Config.getMinSpeed();
+            var runDist = random.nextInt(6) + Config.getDistance();
+            String runTime = String.valueOf((int) (runDist / runSpeed));
+            var runStep = String.valueOf(random.nextInt(300) + 1300);
+            endRunningRes = api.getEndRunning(endRunning, userInfo, runTime, runStep, String.valueOf(runDist));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         JsonNode endNode;
         try {
             endNode = JsonUtil.fromJson(endRunningRes);
@@ -81,10 +89,11 @@ public class UserService {
             return "读取结束 json 错误";
         }
         try {
-            endNode.get("Success");
-            return "跑步成功 Success";
+            System.out.println("endNode:" + endNode);
+            var success = endNode.get("Success").asText();
+            return "跑步成功：" + success;
         } catch (Exception e) {
-            return endNode.get("Data").asText();
+            return "跑步失败：" + endNode.get("Data").asText();
         }
     }
 }

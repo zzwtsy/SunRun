@@ -5,7 +5,6 @@ import cn.zzwtsy.sunrun.data.Config;
 import cn.zzwtsy.sunrun.service.UserService;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Group;
-import net.mamoe.mirai.message.data.At;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -32,12 +31,15 @@ public class TimedTask implements Runnable {
             String status = userService.run(aLong);
             runStatus.put(aLong, status);
         }
+        SunRun.INSTANCE.getLogger().debug("runStatus >>" + runStatus);
         Bot bot = Bot.getInstance(Config.getBotId());
         Group group = bot.getGroup(Config.getGroupId());
         if (group == null) {
             SunRun.INSTANCE.getLogger().error("获取 Group 失败");
             return;
         }
-        runStatus.forEach((k, v) -> group.sendMessage(new At(k).plus(v)));
+        StringBuilder sb = new StringBuilder();
+        runStatus.forEach((k, v) -> sb.append(k).append(":").append(v).append("\n"));
+        group.sendMessage(sb.toString());
     }
 }

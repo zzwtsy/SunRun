@@ -7,8 +7,6 @@ import cn.zzwtsy.sunrun.tools.Tools;
 import cn.zzwtsy.sunrun.utils.HttpUtil;
 import okhttp3.Headers;
 
-import java.util.Random;
-
 /**
  * 阳光体育 api
  *
@@ -41,10 +39,7 @@ public class Api {
      * @return 跑步信息
      */
     public String getRunningRes(UserBean userBean) {
-        String url = HOST + "/" + userBean.getToken()
-                + "/QM_Runs/SRS?S1=" + Config.getLatitude()
-                + "&S2=" + Config.getLongitude()
-                + "&S3=" + Config.getDistance();
+        String url = HOST + "/" + userBean.getToken() + "/QM_Runs/SRS?S1=" + Config.getLatitude() + "&S2=" + Config.getLongitude() + "&S3=1200";
         return HttpUtil.sendGet(
                 url,
                 new Headers.Builder()
@@ -52,9 +47,9 @@ public class Api {
                         .add("timespan", userBean.getTimespan())
                         .add("sign", userBean.getSign())
                         .add("version", Config.getVersion())
-                        .add("Accept", "text/html")
+                        .add("Accept", "")
                         .add("User-Agent", "")
-                        .add("Accept-Encoding", "gzip")
+                        .add("Accept-Encoding", "")
                         .add("Connection", "Keep-Alive")
                         .build()
         );
@@ -67,17 +62,21 @@ public class Api {
      * @param userBean   {@link UserBean}
      * @return {@link String}
      */
-    public String getEndRunning(EndRunning endRunning, UserBean userBean) {
-        Random random = new Random();
-        String runTime = String.valueOf(random.nextInt(390) + 640);
-        String runStep = String.valueOf(random.nextInt(512) + 1024);
-        String runDist = String.valueOf(random.nextInt(6) + Config.getDistance());
+    public String getEndRunning(
+            EndRunning endRunning,
+            UserBean userBean,
+            String runTime,
+            String runStep,
+            String runDist
+    ) {
+        String alphabet = Tools.randomAlphabet();
         String url = HOST + "/" + userBean.getToken()
-                + "/QM_Runs/ES?S1=" + endRunning.getRunId()
-                + "&S4=" + Tools.encrypt(runTime)
-                + "&S5=" + Tools.encrypt(runDist)
-                + "&S6=&S7=1&S8=" + Tools.randomAlphabet()
-                + "&S9=" + Tools.encrypt(runStep);
+                + "/QM_Runs/ES?S1="
+                + endRunning.getRunId()
+                + "&S4=" + Tools.encrypt(runTime, alphabet)
+                + "&S5=" + Tools.encrypt(runDist, alphabet)
+                + "&S6=&S7=1&S8=" + alphabet
+                + "&S9=" + Tools.encrypt(runStep, alphabet);
         return HttpUtil.sendGet(url);
     }
 }

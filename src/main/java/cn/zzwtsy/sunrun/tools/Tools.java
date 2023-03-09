@@ -18,12 +18,12 @@ public class Tools {
     /**
      * 加密
      *
-     * @param value 价值
+     * @param value 值
      * @return {@link String}
      */
     @NotNull
-    public static String encrypt(@NotNull String value) {
-        List<String> table = Arrays.asList(randomAlphabet().split(""));
+    public static String encrypt(String value, String alphabet) {
+        List<String> table = Arrays.asList(alphabet.split(""));
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < value.length(); i++) {
             char curChar = value.charAt(i);
@@ -32,7 +32,6 @@ public class Tools {
         return result.toString();
     }
 
-    @NotNull
     public static String randomAlphabet() {
         //使用默认随机源对列表进行置换
         Collections.shuffle(alphabet);
