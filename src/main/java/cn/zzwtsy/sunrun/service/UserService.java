@@ -91,7 +91,7 @@ public class UserService {
         try {
             System.out.println("endNode:" + endNode);
             var success = endNode.get("Success").asText();
-            return "跑步成功：" + success;
+            return "跑步成功-" + success;
         } catch (Exception e) {
             return "跑步失败：" + endNode.get("Data").asText();
         }
