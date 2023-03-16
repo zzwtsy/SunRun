@@ -32,7 +32,9 @@ public class UserService {
         JsonNode jsonNode;
         String imei = Config.getImei().get(qqId);
         try {
-            jsonNode = JsonUtil.fromJson(api.getUserInfo(imei));
+            String userInfo = api.getUserInfo(imei);
+            jsonNode = JsonUtil.fromJson(userInfo);
+            SunRun.INSTANCE.getLogger().debug("userInfo >>" + userInfo);
         } catch (JsonProcessingException e) {
             SunRun.INSTANCE.getLogger().error("获取用户信息失败", e);
             return null;
@@ -68,6 +70,7 @@ public class UserService {
         try {
             jsonNode = JsonUtil.fromJson(runningRes);
         } catch (JsonProcessingException e) {
+            SunRun.INSTANCE.getLogger().error("runningRes >>" + runningRes);
             return "读取跑步信息 json 错误";
         }
         EndRunning endRunning = new EndRunning();
@@ -84,6 +87,7 @@ public class UserService {
         }
         JsonNode endNode;
         try {
+            SunRun.INSTANCE.getLogger().debug("endRunningRes >>" + endRunningRes);
             endNode = JsonUtil.fromJson(endRunningRes);
         } catch (JsonProcessingException e) {
             return "读取结束 json 错误";

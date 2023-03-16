@@ -1,4 +1,4 @@
-import static cn.zzwtsy.sunrun.tools.Tools.randomAlphabet;
+import java.util.Calendar;
 
 /**
  * 用户服务
@@ -7,23 +7,13 @@ import static cn.zzwtsy.sunrun.tools.Tools.randomAlphabet;
  * @since 2023/02/17
  */
 public class UserServiceTest {
-    private static final String TABLE = "jklmnopqrstuvwxyza0123456789bcdefghi";
-
-    public static String encrypt(String s) {
-        String table = randomAlphabet();
-        System.out.println("table:" + table);
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            int index = s.charAt(i) - '0';
-            result.append(table.charAt(index));
-        }
-        return result.toString();
-    }
 
     public static void main(String[] args) {
-        String input = "740";
-        String encrypted = encrypt(input);
-        System.out.println("输入: " + input);
-        System.out.println("加密结果: " + encrypted);
+//        String imei = "IMEICode=16a18751777c412d91c07b79ca3c0e9b";
+//        String[] split = imei.split("=");
+//        System.out.println(split.length);
+        Calendar calendar = Calendar.getInstance();
+        int i = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        System.out.println(i);
     }
 }
