@@ -25,18 +25,24 @@ public class Group extends SimpleListenerHost {
         message = groupMessageEvent.getMessage().contentToString();
         long userQqId = groupMessageEvent.getSender().getId();
 
-        if (message.startsWith("#imei")) {
-            String[] strings = message.split(" ");
+        if (message.startsWith("IMEICode=")) {
+            String[] strings = message.split("=");
             if (strings.length != 2) {
                 groupMessageEvent.getGroup().sendMessage("命令格式错误");
                 return;
             }
-            if (strings[1].length() != 32) {
+            String newImei = strings[1];
+            if (newImei.length() != 32) {
                 groupMessageEvent.getGroup().sendMessage("imei 格式错误");
                 return;
             }
             Map<Long, String> imei = Config.getImei();
-            imei.put(userQqId, strings[1]);
+            String oldImei = imei.get(userQqId);
+            if (newImei.equals(oldImei)) {
+                groupMessageEvent.getGroup().sendMessage("imei 未过期，无需更新");
+                return;
+            }
+            imei.put(userQqId, newImei);
             groupMessageEvent.getGroup().sendMessage(new At(userQqId).plus("添加成功"));
         }
     }
