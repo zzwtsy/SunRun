@@ -40,7 +40,7 @@ public class UserService {
             return null;
         }
         JsonNode data = jsonNode.get("Data");
-        if (data.isNull()) {
+        if (data == null) {
             return null;
         }
         String token = data.get("Token").asText();
@@ -79,7 +79,7 @@ public class UserService {
         try {
             var runSpeed = random.nextFloat(1) + Config.getMinSpeed();
             var runDist = random.nextInt(6) + Config.getDistance();
-            String runTime = String.valueOf((int) (runDist / runSpeed));
+            var runTime = String.valueOf((int) (runDist / runSpeed));
             var runStep = String.valueOf(random.nextInt(300) + 1300);
             endRunningRes = api.getEndRunning(endRunning, userInfo, runTime, runStep, String.valueOf(runDist));
         } catch (Exception e) {
@@ -93,7 +93,7 @@ public class UserService {
             return "读取结束 json 错误";
         }
         try {
-            System.out.println("endNode:" + endNode);
+            SunRun.INSTANCE.getLogger().debug("endNode >>" + endNode);
             var success = endNode.get("Success").asText();
             return "跑步成功-" + success;
         } catch (Exception e) {
