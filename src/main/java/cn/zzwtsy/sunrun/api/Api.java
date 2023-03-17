@@ -39,7 +39,10 @@ public class Api {
      * @return 跑步信息
      */
     public String getRunningRes(UserBean userBean) {
-        String url = HOST + "/" + userBean.getToken() + "/QM_Runs/SRS?S1=" + Config.getLatitude() + "&S2=" + Config.getLongitude() + "&S3=1200";
+        String url = HOST + "/" + userBean.getToken()
+                + "/QM_Runs/SRS?S1=" + Config.getLatitude()
+                + "&S2=" + Config.getLongitude()
+                + "&S3=" + Config.getDistance();
         return HttpUtil.sendGet(
                 url,
                 new Headers.Builder()

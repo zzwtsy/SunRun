@@ -1,8 +1,8 @@
 package cn.zzwtsy.sunrun.bean;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 /**
  * 用户 bean
@@ -12,7 +12,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@Builder
+@Accessors(chain = true)
 public class UserBean {
     /**
      * 用户 Token

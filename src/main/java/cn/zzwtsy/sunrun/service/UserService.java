@@ -53,15 +53,14 @@ public class UserService {
         String auth = "B" + Encryption.encryptionToMd5(Encryption.encryptionToMd5(imei)) + ":;" + token;
         String nonce = String.valueOf(random.nextInt(10000000 - 100000 + 1) + 100000);
         String sign = Encryption.encryptionToMd5(token + nonce + timespan + userId);
-        return UserBean.builder()
-                .nonce(nonce)
-                .timespan(timespan)
-                .userId(userId)
-                .auth(auth)
-                .sign(sign)
-                .imei(imei)
-                .token(token)
-                .build();
+        return new UserBean()
+                .setUserId(userId)
+                .setTimespan(timespan)
+                .setToken(token)
+                .setImei(imei)
+                .setSign(sign)
+                .setAuth(auth)
+                .setNonce(nonce);
     }
 
     public String run(long qq) {
