@@ -39,6 +39,7 @@ public class UserService {
             SunRun.INSTANCE.getLogger().error("获取用户信息失败", e);
             return null;
         }
+        SunRun.INSTANCE.getLogger().info(qqId + ":" + jsonNode.asText());
         JsonNode data = jsonNode.get("Data");
         if (data == null) {
             return null;
