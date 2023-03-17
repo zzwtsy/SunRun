@@ -21,6 +21,7 @@ import java.util.Random;
 public class UserService {
     private final Random random = new Random();
     private final Api api = new Api();
+    private String imeiStatus = null;
 
     /**
      * 获取用户信息
@@ -37,11 +38,13 @@ public class UserService {
             SunRun.INSTANCE.getLogger().debug("userInfo >>" + userInfo);
         } catch (JsonProcessingException e) {
             SunRun.INSTANCE.getLogger().error("获取用户信息失败", e);
+            imeiStatus = "获取用户信息失败";
             return null;
         }
-        SunRun.INSTANCE.getLogger().info(qqId + ":" + jsonNode.asText());
+        SunRun.INSTANCE.getLogger().debug(qqId + ":" + jsonNode.asText());
         JsonNode data = jsonNode.get("Data");
         if (data == null) {
+            imeiStatus = jsonNode.get("ErrMsg").asText();
             return null;
         }
         String token = data.get("Token").asText();
@@ -64,7 +67,7 @@ public class UserService {
     public String run(long qq) {
         UserBean userInfo = getUserInfo(qq);
         if (userInfo == null) {
-            return "imei 已过期";
+            return imeiStatus;
         }
         String runningRes = api.getRunningRes(userInfo);
         JsonNode jsonNode;
