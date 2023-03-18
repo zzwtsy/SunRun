@@ -5,8 +5,7 @@ import cn.zzwtsy.sunrun.data.Config;
 import cn.zzwtsy.sunrun.service.UserService;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.contact.Group;
-import net.mamoe.mirai.contact.NormalMember;
-import net.mamoe.mirai.message.data.PokeMessage;
+import net.mamoe.mirai.message.data.At;
 
 import java.util.*;
 
@@ -39,19 +38,12 @@ public class TimedTask implements Runnable {
             return;
         }
         StringBuilder sb = new StringBuilder();
-        List<Long> runFailed = new ArrayList<>();
         runStatus.forEach((k, v) -> {
             sb.append(k).append(":").append(v).append("\n");
             if (!v.contains("true")) {
-                runFailed.add(k);
+                group.sendMessage(new At(k).plus("imei 已过期"));
             }
         });
         group.sendMessage(sb.toString());
-        runFailed.forEach((v) -> {
-            NormalMember member = group.get(v);
-            if (member != null) {
-                member.sendMessage(PokeMessage.ChuoYiChuo.plus("imei 已过期"));
-            }
-        });
     }
 }
