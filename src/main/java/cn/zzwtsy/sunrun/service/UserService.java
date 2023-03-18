@@ -5,6 +5,7 @@ import cn.zzwtsy.sunrun.api.Api;
 import cn.zzwtsy.sunrun.bean.EndRunning;
 import cn.zzwtsy.sunrun.bean.UserBean;
 import cn.zzwtsy.sunrun.data.Config;
+import cn.zzwtsy.sunrun.tools.Tools;
 import cn.zzwtsy.sunrun.utils.Encryption;
 import cn.zzwtsy.sunrun.utils.JsonUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -38,7 +39,7 @@ public class UserService {
             SunRun.INSTANCE.getLogger().debug("userInfo >>" + userInfo);
         } catch (JsonProcessingException e) {
             SunRun.INSTANCE.getLogger().error("获取用户信息失败", e);
-            imeiStatus = "获取用户信息失败";
+            imeiStatus = Tools.arraysToString(e.getStackTrace());
             return null;
         }
         SunRun.INSTANCE.getLogger().debug(qqId + ":" + jsonNode.asText());
@@ -74,7 +75,7 @@ public class UserService {
             jsonNode = JsonUtil.fromJson(runningRes);
         } catch (JsonProcessingException e) {
             SunRun.INSTANCE.getLogger().error("runningRes >>" + runningRes);
-            return "读取跑步信息 json 错误";
+            return Tools.arraysToString(e.getStackTrace());
         }
         EndRunning endRunning = new EndRunning();
         endRunning.setRunId(jsonNode.get("Data").get("RunId").asText());
@@ -86,14 +87,14 @@ public class UserService {
             var runStep = String.valueOf(random.nextInt(300) + 1300);
             endRunningRes = api.getEndRunning(endRunning, userInfo, runTime, runStep, String.valueOf(runDist));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return Tools.arraysToString(e.getStackTrace());
         }
         JsonNode endNode;
         try {
             SunRun.INSTANCE.getLogger().debug("endRunningRes >>" + endRunningRes);
             endNode = JsonUtil.fromJson(endRunningRes);
         } catch (JsonProcessingException e) {
-            return "读取结束 json 错误";
+            return Tools.arraysToString(e.getStackTrace());
         }
         try {
             SunRun.INSTANCE.getLogger().debug("endNode >>" + endNode);

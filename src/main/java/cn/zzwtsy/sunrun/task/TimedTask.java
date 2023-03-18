@@ -21,7 +21,7 @@ public class TimedTask implements Runnable {
     public void run() {
         Calendar calendar = Calendar.getInstance();
         int i = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-        if (i == 6 || i == 7) {
+        if (Config.getExcludeDate().contains(i)) {
             return;
         }
         Map<Long, String> runStatus = new HashMap<>();

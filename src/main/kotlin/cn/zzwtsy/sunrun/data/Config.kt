@@ -60,4 +60,13 @@ object Config : AutoSavePluginConfig("config") {
     @ValueDescription("阳光体育版本号")
     @JvmStatic
     val version: String by value("2.44")
+
+    @ValueDescription(
+        """
+            不进行跑步的日期
+            示例: [1,2,3,4,5,6,7] (周一至周日不进行跑步)
+        """
+    )
+    @JvmStatic
+    val excludeDate: List<Int> by value()
 }

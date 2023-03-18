@@ -32,8 +32,11 @@ public final class SunRun extends JavaPlugin {
         groupEventEventChannel.registerListenerHost(new Group());
         String timedTask = Config.getTask();
         //启动定时任务
-        String taskStatus = new TaskService().startTimedTask(timedTask);
-        getLogger().info(taskStatus);
+        String doNotStartTimedTask = "";
+        if (!doNotStartTimedTask.equals(timedTask)) {
+            String taskStatus = new TaskService().startTimedTask(timedTask);
+            getLogger().info(taskStatus);
+        }
         getLogger().info("Plugin loaded!");
     }
 }

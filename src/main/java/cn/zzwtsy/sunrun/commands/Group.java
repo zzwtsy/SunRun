@@ -2,6 +2,7 @@ package cn.zzwtsy.sunrun.commands;
 
 import cn.zzwtsy.sunrun.SunRun;
 import cn.zzwtsy.sunrun.data.Config;
+import cn.zzwtsy.sunrun.tools.Tools;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
@@ -44,6 +45,22 @@ public class Group extends SimpleListenerHost {
             }
             imei.put(userQqId, newImei);
             groupMessageEvent.getGroup().sendMessage(new At(userQqId).plus("添加成功"));
+        }
+        if (message.startsWith("#日期")) {
+            String[] split = message.split(" ");
+            if (split[1].startsWith("add")) {
+                Config.getExcludeDate().clear();
+                for (int i = 2; i < split.length; i++) {
+                    try {
+                        Config.getExcludeDate().add(Integer.valueOf(split[i]));
+                    } catch (Throwable e) {
+                        groupMessageEvent.getGroup().sendMessage(Tools.arraysToString(e.getStackTrace()));
+                    }
+                }
+            }
+            if (split[1].startsWith("show")) {
+                groupMessageEvent.getGroup().sendMessage("以下日期不进行跑步:" + Config.getExcludeDate());
+            }
         }
     }
 

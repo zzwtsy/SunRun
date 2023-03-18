@@ -83,4 +83,24 @@ public class Tools {
             return 0;
         }
     }
+
+    public static String arraysToString(Object[] objects) {
+        if (objects == null) {
+            return "null";
+        }
+
+        int iMax = objects.length - 1;
+        if (iMax == -1) {
+            return "[]";
+        }
+
+        StringBuilder b = new StringBuilder();
+        for (int i = 0; ; i++) {
+            b.append(objects[i]);
+            if (i == iMax) {
+                return b.toString();
+            }
+            b.append("\n");
+        }
+    }
 }
