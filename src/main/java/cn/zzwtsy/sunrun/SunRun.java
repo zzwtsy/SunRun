@@ -17,7 +17,7 @@ public final class SunRun extends JavaPlugin {
     public static final SunRun INSTANCE = new SunRun();
 
     private SunRun() {
-        super(new JvmPluginDescriptionBuilder("cn.zzwtsy.sun-run", "0.1.2")
+        super(new JvmPluginDescriptionBuilder("cn.zzwtsy.sun-run", "0.2.0")
                 .name("SunRun")
                 .author("zzwtsy")
                 .build());
