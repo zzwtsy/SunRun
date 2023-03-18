@@ -4,10 +4,12 @@ import cn.zzwtsy.sunrun.SunRun;
 import cn.zzwtsy.sunrun.data.Config;
 import cn.zzwtsy.sunrun.tools.Tools;
 import kotlin.coroutines.CoroutineContext;
+import net.mamoe.mirai.contact.NormalMember;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.At;
+import net.mamoe.mirai.message.data.PokeMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -60,6 +62,13 @@ public class Group extends SimpleListenerHost {
             }
             if (split[1].startsWith("show")) {
                 groupMessageEvent.getGroup().sendMessage("以下日期不进行跑步:" + Config.getExcludeDate());
+            }
+        }
+        if (message.startsWith("#test")) {
+            String[] split = message.split(" ");
+            NormalMember member = groupMessageEvent.getGroup().get(Long.parseLong(split[1]));
+            if (member != null) {
+                member.sendMessage(PokeMessage.ChuoYiChuo.plus("imei 已过期"));
             }
         }
     }
